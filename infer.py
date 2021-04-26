@@ -1,6 +1,9 @@
 import cv2
 import time
 import argparse
+import sms
+import keyboard
+import win32clipboard
 
 import numpy as np
 from PIL import Image
@@ -110,6 +113,9 @@ def run_on_video(video_path, output_video_name, conf_thresh):
         raise ValueError("Video open failed.")
         return
     status = True
+    if keyboard.is_pressed('q') or pyautogui.hotkey('ctrl', 'c'):
+        status = False
+        sms.send(d.num, d.api, d.no_mask_count)
     idx = 0
     while status:
         start_stamp = time.time()
